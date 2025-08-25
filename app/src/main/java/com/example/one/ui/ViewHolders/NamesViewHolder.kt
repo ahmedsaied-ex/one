@@ -1,13 +1,16 @@
 package com.example.one.ui.ViewHolders
 
+import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.one.R
 
-class StringAdapter(private val stringList: List<String> /* the names list */) :
+class StringAdapter(private val stringList: List<String> /* the names list */,val onClickListener : (String, Int) -> Unit) :
     RecyclerView.Adapter<StringAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -23,8 +26,13 @@ class StringAdapter(private val stringList: List<String> /* the names list */) :
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.tvText.text = stringList[position]
+        val item = stringList[position]
+        holder.tvText.text = item
+        holder.itemView.setOnClickListener {
+           onClickListener(item,position)
+        }
     }
+
 
     override fun getItemCount() = stringList.size
 }

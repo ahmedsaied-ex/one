@@ -3,7 +3,6 @@ package com.example.one.data.domain
  class Names{
     val stringList = listOf<String>(
         "Ahmed",
-        "Saied",
         "Dardery",
         "3esa",
         "Aya",
