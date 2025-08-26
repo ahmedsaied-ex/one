@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">one</string>
+    <string name="app_name" translatable="false">one</string>
+
+    <string name="translate">للعربيه</string>
+    <string name="main_message_en">you pressed on</string>
+    <string name="pos_message_en" >in pos:</string>
+    <string name="number_of_items">cards number</string>
+
 </resources>

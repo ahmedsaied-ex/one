@@ -25,3 +25,4 @@ package com.example.one.data.domain
 
     )
 }
+data class Name(var  name: CharSequence)
