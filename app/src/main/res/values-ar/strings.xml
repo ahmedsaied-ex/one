@@ -4,5 +4,9 @@
     <string name="pos_message_en" >مركزه</string>
     <string name="main_message_en" >لقد ضغطت على</string>
     <string name="number_of_items">عدد العناصر</string>
+    <string name="enter_the_name">ادخل الاسم</string>
+    <string name="add">اضافه</string>
+    <string name="please_enter_name_first">من فضلك ادخل اسم اولا</string>
+    <string name="search">بحث</string>
 
 </resources>
