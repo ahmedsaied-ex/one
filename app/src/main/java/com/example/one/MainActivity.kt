@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun saveLanguagePreference() {
-        val sharedPref = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val sharedPref = getSharedPreferences("app_prefs", MODE_PRIVATE)
         with(sharedPref.edit()) {
             putBoolean("is_arabic", isArabic)
             apply()
@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadLanguagePreference() {
-        val sharedPref = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val sharedPref = getSharedPreferences("app_prefs", MODE_PRIVATE)
         isArabic = sharedPref.getBoolean("is_arabic", false)
         chaneAppLanguage(if (isArabic) "ar" else "en")
     }
@@ -91,7 +91,9 @@ class MainActivity : AppCompatActivity() {
             names,
             { name, positon ->
                 makeToast(name, positon)
-            })
+            },{newCount-> updateItemCount(newCount)}
+
+        )
         binding.recyclerView.adapter = adapter
         binding.searchEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -110,8 +112,16 @@ class MainActivity : AppCompatActivity() {
         val itemTouchHelper = ItemTouchHelper(adapter.swipeToDelete)
         //here we attached the item touchHelper to our recyclerView
         itemTouchHelper.attachToRecyclerView(binding.recyclerView)
+        updateItemCount(adapter.itemCount)
 
     }
+
+    private fun updateItemCount(count : Int) {
+        itemCount = count
+        binding.tvItemsNumber.text = "$itemCount in the list"
+
+    }
+
     fun filterData(namesList: MutableList<Name> , searchText : String): MutableList<Name> {
           val filtered  = namesList.filter{
             it.name.contains(searchText, ignoreCase = true)

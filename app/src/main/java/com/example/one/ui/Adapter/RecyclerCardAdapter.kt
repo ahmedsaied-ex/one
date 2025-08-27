@@ -11,13 +11,14 @@ import com.example.one.ui.ViewHolders.CardViewHolder
 
 class RecyclerCardAdapter(
     private var namesList: MutableList<Name> , /* the names list */
-    val onClickListener : (String, Int) -> Unit)  // function to get the index and the name that return nothing
+    val onClickListener : (String, Int) -> Unit,
+    val onItemCountChanged: (Int) -> Unit
+)  // function to get the index and the name that return nothing
     : RecyclerView.Adapter<CardViewHolder>() {
 
         val swipeToDelete = SwipeToDelete()
     fun updateData(newList: MutableList<Name>) {
         namesList = newList
-
         notifyDataSetChanged() // Or use DiffUtil for better performance
     }
 
@@ -64,8 +65,10 @@ class RecyclerCardAdapter(
     }
 
     fun deleteItem(position: Int){
-        namesList.removeAt(position)
+      namesList.removeAt(position)
         notifyItemRemoved(position)
+        onItemCountChanged(itemCount)
+
     }
     override fun getItemViewType(position: Int): Int {
         return when{
