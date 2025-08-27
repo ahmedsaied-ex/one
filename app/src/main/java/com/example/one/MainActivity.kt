@@ -12,6 +12,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.one.data.domain.Name
@@ -105,6 +106,10 @@ class MainActivity : AppCompatActivity() {
                 adapter.updateData(filteredList)
             }
         })
+        // now we initiated a item touchHelper to swipe and give it the function we had created it in the adapter
+        val itemTouchHelper = ItemTouchHelper(adapter.swipeToDelete)
+        //here we attached the item touchHelper to our recyclerView
+        itemTouchHelper.attachToRecyclerView(binding.recyclerView)
 
     }
     fun filterData(namesList: MutableList<Name> , searchText : String): MutableList<Name> {
