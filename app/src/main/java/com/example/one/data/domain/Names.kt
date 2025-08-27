@@ -1,6 +1,8 @@
 package com.example.one.data.domain
 
- class Names{
+import android.R
+
+class Names{
     val stringList = listOf<String>(
         "Ahmed",
         "Dardery",
@@ -25,4 +27,4 @@ package com.example.one.data.domain
 
     )
 }
-data class Name(var  name: CharSequence)
+data class Name(var  name: String)
