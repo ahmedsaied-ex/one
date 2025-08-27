@@ -3,6 +3,7 @@ package com.example.one.ui.Adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.one.R
 import com.example.one.data.domain.Name
@@ -13,8 +14,10 @@ class RecyclerCardAdapter(
     val onClickListener : (String, Int) -> Unit)  // function to get the index and the name that return nothing
     : RecyclerView.Adapter<CardViewHolder>() {
 
+        val swipeToDelete = SwipeToDelete()
     fun updateData(newList: MutableList<Name>) {
         namesList = newList
+
         notifyDataSetChanged() // Or use DiffUtil for better performance
     }
 
@@ -60,7 +63,10 @@ class RecyclerCardAdapter(
         const val VIEW_TYPE_CARD_TWO = 1
     }
 
-
+    fun deleteItem(position: Int){
+        namesList.removeAt(position)
+        notifyItemRemoved(position)
+    }
     override fun getItemViewType(position: Int): Int {
         return when{
             position % 2 ==0 -> VIEW_TYPE_CARD_ONE
@@ -69,4 +75,23 @@ class RecyclerCardAdapter(
     }
 
     override fun getItemCount() = namesList.size //
+
+    inner class SwipeToDelete(): ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT){
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ): Boolean {
+            return false
+        }
+
+        override fun onSwiped(
+            viewHolder: RecyclerView.ViewHolder,
+            direction: Int
+        ) {
+           val position =viewHolder.adapterPosition
+            deleteItem(position)
+        }
+
+    }
 }
