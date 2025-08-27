@@ -9,37 +9,73 @@
     tools:context=".MainActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/items_number"
+        app:layout_constraintTop_toBottomOf="@+id/tv_items_number"
         app:layout_constraintVertical_weight="1" />
 
     <TextView
-        android:id="@+id/items_number"
+        android:id="@+id/tv_items_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:text="@string/number_of_items"
         android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/translate_button" />
+        app:layout_constraintStart_toStartOf="@+id/search_edit_text"
+        app:layout_constraintTop_toBottomOf="@+id/search_edit_text" />
 
     <Button
         android:id="@+id/translate_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         android:text="@string/translate"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:padding="10dp"
+        android:textColor="@color/white"
+        android:background="@drawable/edit_text_background_color"
+        android:id="@+id/name_edit_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="@string/enter_the_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/translate_button" />
+
+    <Button
+
+        android:id="@+id/add_to_recycler_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add"
+        app:layout_constraintBottom_toBottomOf="@+id/name_edit_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/name_edit_text"
+        app:layout_constraintTop_toTopOf="@+id/name_edit_text" />
+
+    <EditText
+        android:padding="10dp"
+        android:textColor="@color/white"
+        android:background="@drawable/edit_text_background_color"
+        android:id="@+id/search_edit_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="@string/search"
+        app:layout_constraintStart_toStartOf="@+id/name_edit_text"
+        app:layout_constraintTop_toBottomOf="@+id/name_edit_text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
