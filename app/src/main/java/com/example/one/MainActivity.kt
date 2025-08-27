@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun insertData() {
-        itemCount = binding.recyclerView.adapter?.itemCount ?: 0
+        itemCount = binding.rvCardNames.adapter?.itemCount ?: 0
         binding.tvItemsNumber.text = "${getString(R.string.number_of_items )} $itemCount"
     }
 
@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initRecycleView() {
-        binding.recyclerView.layoutManager = LinearLayoutManager(this) // by default is vertically
+        binding.rvCardNames.layoutManager = LinearLayoutManager(this) // by default is vertically
         val adapter = RecyclerCardAdapter(
             names,
             { name, positon ->
@@ -94,8 +94,8 @@ class MainActivity : AppCompatActivity() {
             },{newCount-> updateItemCount(newCount)}
 
         )
-        binding.recyclerView.adapter = adapter
-        binding.searchEditText.addTextChangedListener(object : TextWatcher {
+        binding.rvCardNames.adapter = adapter
+        binding.etSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
@@ -111,7 +111,7 @@ class MainActivity : AppCompatActivity() {
         // now we initiated a item touchHelper to swipe and give it the function we had created it in the adapter
         val itemTouchHelper = ItemTouchHelper(adapter.swipeToDelete)
         //here we attached the item touchHelper to our recyclerView
-        itemTouchHelper.attachToRecyclerView(binding.recyclerView)
+        itemTouchHelper.attachToRecyclerView(binding.rvCardNames)
         updateItemCount(adapter.itemCount)
 
     }
@@ -146,20 +146,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun eventUI() {
-        binding.translateButton.setOnClickListener {
+        binding.btnTranslate.setOnClickListener {
             switchLanguage()
         }
-        binding.addToRecyclerButton.setOnClickListener {
-            val newItem = binding.nameEditText.text.toString().trim()
+        binding.btnAddName.setOnClickListener {
+            val newItem = binding.etAddName.text.toString().trim()
             if (newItem.isNullOrEmpty()) {
-                binding.nameEditText.error = getString(R.string.please_enter_name_first)
-                binding.nameEditText.hint = getString(R.string.please_enter_name_first)
+                binding.etAddName.error = getString(R.string.please_enter_name_first)
+                binding.etAddName.hint = getString(R.string.please_enter_name_first)
 
             } else {
                 addToRecycler(newItem)
-                binding.nameEditText.setText(null)
-                binding.nameEditText.clearFocus()
-                itemCount=binding.recyclerView.adapter?.itemCount ?: 0
+                binding.etAddName.setText(null)
+                binding.etAddName.clearFocus()
+                itemCount=binding.rvCardNames.adapter?.itemCount ?: 0
                 binding.tvItemsNumber.text = "$itemCount in the list"
             }
 
@@ -171,9 +171,9 @@ class MainActivity : AppCompatActivity() {
     private fun addToRecycler(new_name: String) {
 
         names.add(Name(new_name))
-        binding.recyclerView.adapter?.notifyItemInserted(names.size - 1) // Add new card
+        binding.rvCardNames.adapter?.notifyItemInserted(names.size - 1) // Add new card
 
-        binding.recyclerView.scrollToPosition(names.size - 1)// Scroll to the newly added item
+        binding.rvCardNames.scrollToPosition(names.size - 1)// Scroll to the newly added item
 
 
     }
