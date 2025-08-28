@@ -36,7 +36,6 @@ class MainActivity : AppCompatActivity() {
         initViews()
 
         listBuilder()
-        setContentView(binding.root)
         initRecycleView()
         insertData()
         eventUI()
@@ -45,13 +44,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun insertData() {
         itemCount = binding.rvCardNames.adapter?.itemCount ?: 0
-        binding.tvItemsNumber.text = "${getString(R.string.number_of_items )} $itemCount"
+        binding.tvItemsNumber.text = getString(R.string.number_of_items ,itemCount )
     }
 
-    private fun listBuilder() {
-        for (x in Names().stringList) {
-            names.add(Name(x))
-        }
+    private fun listBuilder() { //todo enhance this for Loop
+        names.addAll(Names().stringList.map { Name(it) }) //
     }
 
     private fun switchLanguage() {
@@ -118,7 +115,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateItemCount(count : Int) {
         itemCount = count
-        binding.tvItemsNumber.text = "$itemCount in the list"
+        binding.tvItemsNumber.text = getString(R.string.number_of_items,itemCount)
 
     }
 
@@ -142,6 +139,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initViews() {
         binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         binding.tvItemsNumber.text = names.size.toString()
     }
 

@@ -4,7 +4,7 @@
     <string name="translate">للعربيه</string>
     <string name="main_message_en">you pressed on</string>
     <string name="pos_message_en" >in pos:</string>
-    <string name="number_of_items">cards number</string>
+    <string name="number_of_items">cards number %d</string>
     <string name="enter_the_name">Enter the name</string>
     <string name="add">add</string>
     <string name="please_enter_name_first">please enter name first</string>
