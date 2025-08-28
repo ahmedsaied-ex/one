@@ -24,33 +24,41 @@ class RecyclerCardAdapter(
 
     private var tempList : MutableList<Name> = mutableListOf()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
-        return when(viewType){
-            VIEW_TYPE_CARD_ONE -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.card_view, parent, false)
-//                view.setBackgroundColor(ContextCompat.getColor(parent.context, R.color.green_card))
-//                view.setBackgroundResource(R.color.green_card)
-                view.setBackgroundResource(R.drawable.card_background_color_even)
-                CardViewHolder(view) // Creating and returning ViewHolder
-            }
-            VIEW_TYPE_CARD_TWO -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.card_view, parent, false)
-                view.setBackgroundResource(R.drawable.card_background_color_odd)
-
-                CardViewHolder(view)
-            }
-            else -> {
-                val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.card_view, parent, false)
-                 CardViewHolder(view)
-            }
-        }
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.card_view,parent,false)
+        return CardViewHolder(view)
     }
-
-    override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
+/*
+//        return when(viewType){
+//            VIEW_TYPE_CARD_ONE -> {
+//                val view = LayoutInflater.from(parent.context).inflate(R.layout.card_view, parent, false)
+////                view.setBackgroundColor(ContextCompat.getColor(parent.context, R.color.green_card))
+////                view.setBackgroundResource(R.color.green_card)
+//                view.setBackgroundResource(R.drawable.card_background_color_even)
+//                CardViewHolder(view) // Creating and returning ViewHolder
+//            }
+//            VIEW_TYPE_CARD_TWO -> {
+//                val view = LayoutInflater.from(parent.context).inflate(R.layout.card_view, parent, false)
+//                view.setBackgroundResource(R.drawable.card_background_color_odd)
+//
+//                CardViewHolder(view)
+//            }
+//            else -> {
+//                val view = LayoutInflater.from(parent.context)
+//                    .inflate(R.layout.card_view, parent, false)
+//                 CardViewHolder(view)
+//            }
+//        }
+*
+*/
+    override fun onBindViewHolder(holder: CardViewHolder, position: Int) { // todo change background in onBinding
         val card = namesList[position]
         holder.cardText.text = card.name // put name in the card
-        holder.itemView.setOnClickListener {
-            onClickListener(card.name.toString(),position)
+        val context = holder.itemView.context
+        if (position %2==0) holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.green_card))
+    else holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.blue_card))
+
+    holder.itemView.setOnClickListener {
+            onClickListener(card.name?:"",position)  // for safety
         }
     }
 
