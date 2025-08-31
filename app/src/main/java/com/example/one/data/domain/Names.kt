@@ -27,4 +27,4 @@ class Names{
 
     )
 }
-data class Name(var  name: String)
+data class Name(var  name: String,val id: Int)

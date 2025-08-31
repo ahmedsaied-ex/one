@@ -1,26 +1,23 @@
 package com.example.one
 
 
-import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.inputmethod.EditorInfo
-import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.one.data.domain.Name
 import com.example.one.data.domain.Names
 import com.example.one.databinding.ActivityMainBinding
 import com.example.one.ui.Adapter.RecyclerCardAdapter
 import java.util.Locale
 import kotlin.collections.mutableListOf
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,7 +31,6 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         loadLanguagePreference()
         initViews()
-
         listBuilder()
         initRecycleView()
         insertData()
@@ -47,8 +43,12 @@ class MainActivity : AppCompatActivity() {
         binding.tvItemsNumber.text = getString(R.string.number_of_items ,itemCount )
     }
 
-    private fun listBuilder() { //todo enhance this for Loop
-        names.addAll(Names().stringList.map { Name(it) }) //
+    private fun listBuilder() {
+        names.addAll(
+            Names().stringList.mapIndexed { index, item ->
+                Name(item, index) // id = index
+            }
+        )
     }
 
     private fun switchLanguage() {
@@ -84,13 +84,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun initRecycleView() {
         binding.rvCardNames.layoutManager = LinearLayoutManager(this) // by default is vertically
-        val adapter = RecyclerCardAdapter(
-            names,
-            { name, positon ->
-                makeToast(name, positon)
-            },{newCount-> updateItemCount(newCount)}
-
+         val adapter = RecyclerCardAdapter(
+            { name, pos ->
+               makeToast(name,pos)
+            },
+            { count ->
+                updateItemCount(count)
+                Log.d("Recycler", "Item count = $count")
+            }
         )
+        adapter.updateData(names)
         binding.rvCardNames.adapter = adapter
         binding.etSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -106,7 +109,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
         // now we initiated a item touchHelper to swipe and give it the function we had created it in the adapter
-        val itemTouchHelper = ItemTouchHelper(adapter.swipeToDelete)
+        val itemTouchHelper = ItemTouchHelper(adapter.SwipeToDelete())
         //here we attached the item touchHelper to our recyclerView
         itemTouchHelper.attachToRecyclerView(binding.rvCardNames)
         updateItemCount(adapter.itemCount)
@@ -121,7 +124,7 @@ class MainActivity : AppCompatActivity() {
 
     fun filterData(namesList: MutableList<Name> , searchText : String): MutableList<Name> {
           val filtered  = namesList.filter{
-            it.name.contains(searchText, ignoreCase = true)
+            it.name.contains(searchText, true)
         }
         return filtered as MutableList<Name>
     }
@@ -157,8 +160,7 @@ class MainActivity : AppCompatActivity() {
                 addToRecycler(newItem)
                 binding.etAddName.setText(null)
                 binding.etAddName.clearFocus()
-                itemCount=binding.rvCardNames.adapter?.itemCount ?: 0
-                binding.tvItemsNumber.text = "$itemCount in the list"
+
             }
 
         }
@@ -167,13 +169,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun addToRecycler(new_name: String) {
+        val newId = if (names.isEmpty()) 0 else names.maxOf { it.id } + 1
+        val newItem = Name(new_name,  newId)
+        names.add(newItem)
 
-        names.add(Name(new_name))
-        binding.rvCardNames.adapter?.notifyItemInserted(names.size - 1) // Add new card
+        // Instead of notifyItemInserted (old RecyclerView way)
+        // we should use ListAdapter’s submitList
+        val adapter = binding.rvCardNames.adapter as RecyclerCardAdapter
+        adapter.updateData(names.toList())
 
-        binding.rvCardNames.scrollToPosition(names.size - 1)// Scroll to the newly added item
+        binding.rvCardNames.scrollToPosition(names.size - 1)
+
 
 
     }
+
 
 }

@@ -1,10 +1,9 @@
 package com.example.one.ui.ViewHolders
-import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.one.R
+import com.example.one.databinding.CardViewBinding
 
 
-class CardViewHolder(view: View) : RecyclerView.ViewHolder(view) { // create a holder to the something that will change in the view
-    val cardText: TextView = view.findViewById(R.id.name_id) /*the card Name*/
+class CardViewHolder(val binding: CardViewBinding) : RecyclerView.ViewHolder(binding.root) { // create a holder to the something that will change in the view
+    val cardText: TextView = binding.nameId /*the card Name*/
 }
