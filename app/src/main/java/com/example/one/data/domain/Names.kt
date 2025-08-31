@@ -1,6 +1,5 @@
 package com.example.one.data.domain
 
-import android.R
 
 class Names{
     val stringList = listOf<String>(
